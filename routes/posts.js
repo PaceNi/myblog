@@ -78,22 +78,89 @@ router.get('/:postId', function(req, res, next) {
 		})
 		.catch(next);
 });
+// 通过文章 id 获取一篇原生文章（编辑文章）
+getRawPostById: function getRawPostById(postId) {
+	return Post
+		.findOne({
+			_id: postId
+		})
+		.populate({
+			path: 'author',
+			model: 'User'
+		})
+		.exec();
+}
+
+// 通过用户 id 和文章 id 更新一篇文章
+updatePostById: function updatePostById(postId, author, data) {
+	return Post.update({
+		author: author,
+		_id: postId
+	}, {
+		$set: data
+	}).exec();
+}
+
+// 通过用户 id 和文章 id 删除一篇文章
+delPostById: function delPostById(postId, author) {
+	return Post.remove({
+		author: author,
+		_id: postId
+	}).exec();
+}
 
 // GET /posts/:postId/edit 更新文章页
 router.get('/:postId/edit', checkLogin, function(req, res, next) {
-	res.send(req.flash());
+	var postId = req.params.postId;
+	var author = req.session.user._id;
+
+	PostModel.getRawPostById(postId)
+		.then(function(post) {
+			if (!post) {
+				throw new Error('该文章不存在');
+			}
+			if (author.toString() !== post.author._id.toString()) {
+				throw new Error('权限不足');
+			}
+			res.render('edit', {
+				post: post
+			});
+		})
+		.catch(next);
 });
 
 // POST /posts/:postId/edit 更新一篇文章
 router.post('/:postId/edit', checkLogin, function(req, res, next) {
-	res.send(req.flash());
+	var postId = req.params.postId;
+	var author = req.session.user._id;
+	var title = req.fields.title;
+	var content = req.fields.content;
+
+	PostModel.updatePostById(postId, author, {
+			title: title,
+			content: content
+		})
+		.then(function() {
+			req.flash('success', '编辑文章成功');
+			// 编辑成功后跳转到上一页
+			res.redirect(`/posts/${postId}`);
+		})
+		.catch(next);
 });
 
 // GET /posts/:postId/remove 删除一篇文章
 router.get('/:postId/remove', checkLogin, function(req, res, next) {
-	res.send(req.flash());
-});
+	var postId = req.params.postId;
+	var author = req.session.user._id;
 
+	PostModel.delPostById(postId, author)
+		.then(function() {
+			req.flash('success', '删除文章成功');
+			// 删除成功后跳转到主页
+			res.redirect('/posts');
+		})
+		.catch(next);
+});
 // POST /posts/:postId/comment 创建一条留言
 router.post('/:postId/comment', checkLogin, function(req, res, next) {
 	res.send(req.flash());

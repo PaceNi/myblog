@@ -15,6 +15,7 @@ router.get('/', checkNotLogin, function(req, res, next) {
 // POST /signup 用户注册
 router.post('/', checkNotLogin, function(req, res, next) {
 	var name = req.fields.name;
+	var userName = req.fields.userName;
 	var bio = req.fields.bio;
 	var permission = req.fields.permission;
 	var rank = req.fields.rank;
@@ -24,8 +25,11 @@ router.post('/', checkNotLogin, function(req, res, next) {
 
 	// 校验参数
 	try {
-		if (!(name.length >= 1 && name.length <= 10)) {
-			throw new Error('名字请限制在 1-10 个字符');
+		if (!(userName.length >= 1 && userName.length <= 10)) {
+			throw new Error('登录名请限制在 1-10 个字符');
+		}
+		if (!(name.length >= 1 && name.length <= 20)) {
+			throw new Error('名字请限制在 1-20 个字符');
 		}
 		if (!(bio.length >= 1 && bio.length <= 30)) {
 			throw new Error('个人简介请限制在 1-30 个字符');
@@ -58,6 +62,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
 	// 待写入数据库的用户信息
 	var user = {
 		name: name,
+		userName: userName,
 		password: password,
 		rank: rank,
 		permission: permission,
@@ -82,7 +87,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
 			fs.unlink(req.files.avatar.path);
 			// 用户名被占用则跳回注册页，而不是错误页
 			if (e.message.match('E11000 duplicate key')) {
-				req.flash('error', '用户名已被占用');
+				req.flash('error', '登录名已被占用');
 				return res.redirect('/signup');
 			}
 			next(e);
