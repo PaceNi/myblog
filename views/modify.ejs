@@ -1,0 +1,39 @@
+<%- include('header') %>
+ <div class="nav">
+  <div class="ui grid">
+    <div class="four wide column"></div>
+
+    <div class="eight wide column">
+      <a><h1>修改密码</h1></a>
+    </div>
+  </div>
+</div>
+  <%- include('components/nav-setting') %>
+  <%- include('components/notification') %>
+
+<div class="ui grid">
+  <div class="four wide column"></div>
+  <div class="eight wide column">
+    <form class="ui form segment" method="post">
+      <div class="field required">
+        <label>帐号</label>
+        <% if(user.name=="admin"){%>
+          <input placeholder="帐号" type="text" name="name">
+        <% } else { %>
+          <input placeholder="帐号" type="text" value="<%= user.name %>" name="name">
+        <% }%>
+      </div>
+      <div class="field required">
+        <label>密码</label>
+        <input placeholder="密码" type="password" name="password">
+      </div>
+      <div class="field required">
+        <label>重复密码</label>
+        <input placeholder="重复密码" type="password" name="repassword">
+      </div>
+      <input type="submit" class="ui button fluid" value="修改密码">
+    </div>
+  </form>
+</div>
+
+<%- include('footer') %>

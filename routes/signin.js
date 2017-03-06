@@ -23,7 +23,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
 			}
 			// 检查密码是否匹配
 			if (sha1(password) !== user.password) {
-				req.flash('error', '用户名或密码错误');
+				req.flash('error', '登录名或密码错误');
 				return res.redirect('back');
 			}
 			req.flash('success', '登录成功');

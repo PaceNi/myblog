@@ -1,19 +1,16 @@
-<div class="post-content">
   <div class="ui grid">
     <div class="four wide column">
-      <a class="avatar"
-         href="/posts?author=<%= post.author._id %>"
-         data-content="<%= ({1:'常熟理工',2:'人文学院', 3:'外国语学院', 4:'艺术与服装工程学院', 5:'生物与食品工程学院', 6:'计算机科学与工程学院', 7:'物理与电子工程学院', 8:'数学与统计学院', 9:'化学与材料工程学院', 10:'机械工程学院', 11:'电气与自动化工程学院', 12:'经济与管理学院', 13:'汽车工程学院', 14:'马克思主义学院', 15:'体育部'})[post.author.rank] %>"
-         data-content="<%= post.author.bio %>">
-        <img class="avatar" src="/img/<%= post.author.avatar %>">
-      </a>
-      <p><%= post.author.name %> |</p>
+      <p style="text-align:right;"><%= post.author.nick %></p>
     </div>
-
-    <div class="eight wide column">
+    <div class="twelve wide column">
+      
       <div class="ui segment">
         <h3><a href="/posts/<%= post._id %>"><%= post.title %></a></h3>
-        <pre><%- post.content %></pre>
+        <% if (!post._id) { %>
+          <div class="summary"><%- post.content %></div>
+        <% } else { %>
+          <div class="summary p_short"><%- post.content %></div>
+        <% } %>
         <div>
           <span class="tag"><%= post.created_at %></span>
           <span class="tag right">
@@ -36,4 +33,3 @@
       </div>
     </div>
   </div>
-</div>

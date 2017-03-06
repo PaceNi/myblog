@@ -20,7 +20,7 @@ a:hover {
   border-radius: 3px;
   width: 48px;
   height: 48px;
-  float: right;
+  /*float: right;*/
 }
 
 /* ---------- nav ---------- */
@@ -57,7 +57,23 @@ a:hover {
 }
 
 /* ---------- post-content ---------- */
+.content{
+  padding: 0 100px;
 
+}
+.clearfix{
+  zoom:1;
+}
+.clearfix:after{
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.post-content{
+  float: right;
+  width: 80%;
+}
 .post-content h3 a {
   color: #4fc08d !important;
 }
@@ -76,3 +92,36 @@ a:hover {
 .post-content .tag.right a {
   color: #999;
 }
+.personal_left{
+  float:left;
+  width: 20%;
+  text-align: center;
+}
+.personal_left .personal_img{
+  border-radius: 3px;
+  width: 80px;
+  height: 80px;
+}
+
+
+
+.DashboardProfileCard{
+  border: 1px solid #e1e8ed;
+  background: #fff;
+  border-radius: 6px;
+}
+.module{
+  background-clip: padding-box;
+  border:0;
+  border-radius: 6px;
+  line-height: 16px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.summary{margin-bottom: 10px; text-align: left; }
+.summary.selector{height: auto; } 
+.p_short{overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;font-size:14px;text-overflow:ellipsis}
+
+
+

@@ -8,14 +8,16 @@ var UserModel = require('../models/users');
 var checkNotLogin = require('../middlewares/check').checkNotLogin;
 
 // GET /signup 注册页
-router.get('/', checkNotLogin, function(req, res, next) {
+router.get('/', function(req, res, next) {
 	res.render('signup');
 });
 
 // POST /signup 用户注册
-router.post('/', checkNotLogin, function(req, res, next) {
+router.post('/', function(req, res, next) {
 	var name = req.fields.name;
-	var userName = req.fields.userName;
+	var nick = req.fields.nick;
+	var permission = req.fields.permission;
+	var rank = req.fields.rank;
 	var bio = req.fields.bio;
 	var avatar = req.files.avatar.path.split(path.sep).pop();
 	var password = req.fields.password;
@@ -23,11 +25,17 @@ router.post('/', checkNotLogin, function(req, res, next) {
 
 	// 校验参数
 	try {
-		if (!(userName.length >= 1 && userName.length <= 10)) {
-			throw new Error('登录名请限制在 1-10 个字符');
+		if (!(name.length >= 1 && name.length <= 10)) {
+			throw new Error('名字请限制在 1-10 个字符');
 		}
-		if (!(name.length >= 1 && name.length <= 20)) {
+		if (!(nick.length >= 1 && nick.length <= 20)) {
 			throw new Error('名字请限制在 1-20 个字符');
+		}
+		if (['0'].indexOf(rank) != -1) {
+			throw new Error('请选择院系');
+		}
+		if (['0'].indexOf(permission) != -1) {
+			throw new Error('请选择角色');
 		}
 		if (!(bio.length >= 1 && bio.length <= 30)) {
 			throw new Error('个人简介请限制在 1-30 个字符');
@@ -54,7 +62,9 @@ router.post('/', checkNotLogin, function(req, res, next) {
 	// 待写入数据库的用户信息
 	var user = {
 		name: name,
-		userName: userName,
+		nick: nick,
+		rank: rank,
+		permission: permission,
 		password: password,
 		bio: bio,
 		avatar: avatar
@@ -65,8 +75,8 @@ router.post('/', checkNotLogin, function(req, res, next) {
 			// 此 user 是插入 mongodb 后的值，包含 _id
 			user = result.ops[0];
 			// 将用户信息存入 session
-			delete user.password;
-			req.session.user = user;
+			// delete user.password;
+			// req.session.user = user;
 			// 写入 flash
 			req.flash('success', '注册成功');
 			// 跳转到首页

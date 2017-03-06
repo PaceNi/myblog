@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var PostModel = require('../models/posts');
+var CommentModel = require('../models/comments');
+
 var checkLogin = require('../middlewares/check').checkLogin;
 
 // GET /posts 所有用户或者特定用户的文章页
@@ -64,50 +66,23 @@ router.get('/:postId', function(req, res, next) {
 
 	Promise.all([
 			PostModel.getPostById(postId), // 获取文章信息
+			CommentModel.getComments(postId), // 获取该文章所有留言
 			PostModel.incPv(postId) // pv 加 1
 		])
 		.then(function(result) {
 			var post = result[0];
+			var comments = result[1];
 			if (!post) {
 				throw new Error('该文章不存在');
 			}
 
 			res.render('post', {
-				post: post
+				post: post,
+				comments: comments
 			});
 		})
 		.catch(next);
 });
-// 通过文章 id 获取一篇原生文章（编辑文章）
-getRawPostById: function getRawPostById(postId) {
-	return Post
-		.findOne({
-			_id: postId
-		})
-		.populate({
-			path: 'author',
-			model: 'User'
-		})
-		.exec();
-}
-
-// 通过用户 id 和文章 id 更新一篇文章
-updatePostById: function updatePostById(postId, author, data) {
-	return Post.update({
-		author: author,
-		_id: postId
-	}, {
-		$set: data
-	}).exec();
-}
-
-// 通过用户 id 和文章 id 删除一篇文章
-delPostById: function delPostById(postId, author) {
-	return Post.remove({
-		author: author,
-		_id: postId
-	}).exec();
-}
 
 // GET /posts/:postId/edit 更新文章页
 router.get('/:postId/edit', checkLogin, function(req, res, next) {
@@ -161,6 +136,7 @@ router.get('/:postId/remove', checkLogin, function(req, res, next) {
 		})
 		.catch(next);
 });
+
 // POST /posts/:postId/comment 创建一条留言
 router.post('/:postId/comment', checkLogin, function(req, res, next) {
 	res.send(req.flash());

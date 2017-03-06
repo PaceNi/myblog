@@ -1,7 +1,22 @@
 <%- include('header') %>
+ <div class="nav">
+  <div class="ui grid">
+    <div class="four wide column"></div>
 
-<% posts.forEach(function (post) { %>
-  <%- include('components/post-content', { post: post }) %>
-<% }) %>
+    <div class="eight wide column">
+      <a href="/posts"><h1>校园信息</h1></a>
+    </div>
+  </div>
+</div>
+  <%- include('components/nav-setting') %>
+  <%- include('components/notification') %>
+  <div class="content clearfix">
+  	<%- include('components/personal') %>
+	<div class="post-content">
+		<% posts.forEach(function (post) { %>
+		  <%- include('components/post-content', { post: post }) %>
+		<% }) %>
+	</div>
+  </div>
 
 <%- include('footer') %>
