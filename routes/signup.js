@@ -17,8 +17,6 @@ router.post('/', checkNotLogin, function(req, res, next) {
 	var name = req.fields.name;
 	var userName = req.fields.userName;
 	var bio = req.fields.bio;
-	var permission = req.fields.permission;
-	var rank = req.fields.rank;
 	var avatar = req.files.avatar.path.split(path.sep).pop();
 	var password = req.fields.password;
 	var repassword = req.fields.repassword;
@@ -33,12 +31,6 @@ router.post('/', checkNotLogin, function(req, res, next) {
 		}
 		if (!(bio.length >= 1 && bio.length <= 30)) {
 			throw new Error('个人简介请限制在 1-30 个字符');
-		}
-		if (['0'].indexOf(rank) != -1) {
-			throw new Error('请选择所属学院');
-		}
-		if (['0'].indexOf(permission) != -1) {
-			throw new Error('请选择所属角色');
 		}
 		if (!req.files.avatar.name) {
 			throw new Error('缺少头像');
@@ -64,8 +56,6 @@ router.post('/', checkNotLogin, function(req, res, next) {
 		name: name,
 		userName: userName,
 		password: password,
-		rank: rank,
-		permission: permission,
 		bio: bio,
 		avatar: avatar
 	};

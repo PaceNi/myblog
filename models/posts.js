@@ -27,7 +27,7 @@ module.exports = {
 	getPostById: function getPostById(postId) {
 		return Post
 			.findOne({
-				_id: postId,
+				_id: postId
 			})
 			.populate({
 				path: 'author',
