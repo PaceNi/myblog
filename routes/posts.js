@@ -2,14 +2,12 @@ var express = require('express');
 var router = express.Router();
 var PostModel = require('../models/posts');
 var CommentModel = require('../models/comments');
-
 var checkLogin = require('../middlewares/check').checkLogin;
 
 // GET /posts 所有用户或者特定用户的文章页
 //   eg: GET /posts?author=xxx
 router.get('/', function(req, res, next) {
 	var author = req.query.author;
-
 	PostModel.getPosts(author)
 		.then(function(posts) {
 			res.render('posts', {
@@ -18,6 +16,7 @@ router.get('/', function(req, res, next) {
 		})
 		.catch(next);
 });
+
 // GET /posts/create 发表文章页
 router.get('/create', checkLogin, function(req, res, next) {
 	res.render('create');
@@ -27,6 +26,7 @@ router.get('/create', checkLogin, function(req, res, next) {
 router.post('/', checkLogin, function(req, res, next) {
 	var author = req.session.user._id;
 	var title = req.fields.title;
+	var _rank = req.session.user.rank;
 	var content = req.fields.content;
 
 	// 校验参数
@@ -46,6 +46,7 @@ router.post('/', checkLogin, function(req, res, next) {
 		author: author,
 		title: title,
 		content: content,
+		_rank: 6,
 		pv: 0
 	};
 

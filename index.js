@@ -18,8 +18,8 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 // session 中间件
 app.use(session({
-	resave: true,
-	saveUninitialized: true,
+	resave: true, // 强制更新 session
+	saveUninitialized: true, // 设置为 false，强制创建一个 session，即使用户未登
 	name: config.session.key, // 设置 cookie 中保存 session id 的字段名称
 	secret: config.session.secret, // 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
 	cookie: {
