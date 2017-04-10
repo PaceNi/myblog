@@ -82,6 +82,26 @@ module.exports = {
 			.contentToHtml()
 			.exec();
 	},
+	// 按创建时间降序获取所有用户文章或者某个范围的所有文章
+	getPosts: function getRankPosts(rank) {
+		var query = {};
+		if (rank) {
+			query.rank = rank;
+		}
+		return Post
+			.find(query)
+			.populate({
+				path: 'rank',
+				model: 'User'
+			})
+			.sort({
+				_id: -1
+			})
+			.addCreatedAt()
+			.addCommentsCount()
+			.contentToHtml()
+			.exec();
+	},
 
 	// 通过文章 id 给 pv 加 1
 	incPv: function incPv(postId) {
