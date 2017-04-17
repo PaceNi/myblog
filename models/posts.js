@@ -83,7 +83,7 @@ module.exports = {
 			.exec();
 	},
 	// 按创建时间降序获取所有用户文章或者某个范围的所有文章
-	getPosts: function getRankPosts(rank) {
+	getPostByRank: function getPostByRank(rank) {
 		var query = {};
 		if (rank) {
 			query.rank = rank;

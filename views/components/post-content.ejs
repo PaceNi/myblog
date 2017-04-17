@@ -1,6 +1,6 @@
   <div class="ui grid">
     <div class="four wide column">
-      <p style="text-align:right;"><%= post.author.nick %></p>
+      <p style="text-align:right;"><a class="item" href="/posts?author=<%= post.author._id %>"><%= post.author.nick %></a></p>
     </div>
     <div class="twelve wide column">
       
