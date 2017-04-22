@@ -1,16 +1,11 @@
-  <div class="ui grid">
-    <div class="four wide column">
-      <p style="text-align:right;"><a class="item" href="/posts?author=<%= post.author._id %>"><%= post.author.nick %></a></p>
-    </div>
-    <div class="twelve wide column">
-      
+  <div class="pin ui grid post" >
+    <div class="one column wide">
       <div class="ui segment">
-        <h3><a href="/posts/<%= post._id %>"><%= post.title %></a></h3>
-        <% if (!post._id) { %>
-          <div class="summary"><%- post.content %></div>
-        <% } else { %>
-          <div class="summary p_short"><%- post.content %></div>
-        <% } %>
+      <a class="item" href="/posts?author=<%= post.author._id %>"><img class="personal_img" src="/img/<%= post.author.avatar %>">
+      <p style="text-align:right;"><%= post.author.nick %></p></a>
+        <p style="display: block;font-weight: bolder;padding-top: 10px; "><%= post.title %></p>
+          <div class="summary p_all"><%- post.content %></div>
+          <div class="summary p_short"><a href="/posts/<%= post._id %>"><%- post.content %></a></div>
         <div>
           <span class="tag"><%= post.created_at %></span>
           <span class="tag right">
@@ -27,7 +22,6 @@
                 </div>
               </div>
             <% } %>
-
           </span>
         </div>
       </div>

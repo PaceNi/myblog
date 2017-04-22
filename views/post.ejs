@@ -1,16 +1,21 @@
 <%- include('header') %>
- <div class="nav">
-  <div class="ui grid">
-    <div class="four wide column"></div>
-
-    <div class="eight wide column">
-      <a href="/posts"><h1>校园信息</h1></a>
-    </div>
-  </div>
-</div>
-  <%- include('components/nav-setting') %>
-  <%- include('components/notification') %>
+<%- include('components/nav') %>
+<%- include('components/nav-setting') %>
+<%- include('components/notification') %>
 <%- include('components/post-content') %>
 <%- include('components/comments') %>
 
 <%- include('footer') %>
+<script type="text/javascript">
+  var searchStr = window.location.href.split("/");
+  console.log(searchStr.length)
+  if (searchStr.length > 4) {
+    $('.p_all').show();
+    $('.p_short').hide();
+    console.log('333')
+    $('.pin').css('padding-top','72px');
+  } else {
+    $('.p_all').hide();
+    $('.p_short').show();
+  }
+</script>

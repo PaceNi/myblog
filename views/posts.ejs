@@ -1,7 +1,6 @@
 <%- include('header') %>
- <div class="nav">
+ <!-- <div class="nav">
   <div class="ui grid">
-    <div class="four wide column"></div>
   <div class="field required">
     <label>所属院系</label>
     <select class="ui compact selection dropdown" name="rank" onchange="window.location=this.value">
@@ -23,16 +22,17 @@
       <option value="/posts?rank=15">体育部</option>
     </select>
   </div>
-    <div class="eight wide column">
+    <div class="twelve wide column">
       <a href="/posts"><h1>校园信息</h1></a>
     </div>
   </div>
-</div>
+</div> -->
+<%- include('components/nav') %>
   <%- include('components/nav-setting') %>
   <%- include('components/notification') %>
   <div class="content clearfix">
   	<%- include('components/personal') %>
-	<div class="post-content">
+	<div class="post-content waterfall">
 		<% posts.forEach(function (post) { %>
 		  <%- include('components/post-content', { post: post }) %>
 		<% }) %>
@@ -40,3 +40,14 @@
   </div>
 
 <%- include('footer') %>
+<script type="text/javascript">
+  var searchStr = window.location.href.split("/");
+  console.log(searchStr.length)
+  if (searchStr.length > 4) {
+    $('.p_all').show();
+    $('.p_short').hide();
+  } else {
+    $('.p_all').hide();
+    $('.p_short').show();
+  }
+</script>
