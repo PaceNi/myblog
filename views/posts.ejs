@@ -29,10 +29,10 @@
 </div> -->
 <%- include('components/nav') %>
   <%- include('components/nav-setting') %>
-  <%- include('components/notification') %>
   <div class="content clearfix">
   	<%- include('components/personal') %>
 	<div class="post-content waterfall">
+  <%- include('components/notification') %>
 		<% posts.forEach(function (post) { %>
 		  <%- include('components/post-content', { post: post }) %>
 		<% }) %>
