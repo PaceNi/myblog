@@ -5,7 +5,7 @@
       <div class="menu">
         <% if (user) { %>
           <a class="item" href="/posts">首页</a>
-          <% if(user.permission=='1'){%>
+          <% if(user.permission!='2'){%>
             <a class="item" href="/posts?author=<%= user._id %>">个人主页</a>
             <div class="divider"></div>
             <a class="item" href="/posts/create">发表文章</a>

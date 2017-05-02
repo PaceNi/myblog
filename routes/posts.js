@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 var PostModel = require('../models/posts');
 var CommentModel = require('../models/comments');
 var checkLogin = require('../middlewares/check').checkLogin;
@@ -16,12 +17,9 @@ router.get('/', function(req, res, next) {
 		})
 		.catch(next);
 });
-
-// GET /posts 所有用户或者特定用户的文章页
-//   eg: GET /posts?rank=xxx
 router.get('/', function(req, res, next) {
-	var rank = req.query.rank;
-	PostModel.getPostByRank(rank)
+	var page = req.query.page;
+	PostModel.getPostSkip(page)
 		.then(function(posts) {
 			res.render('posts', {
 				posts: posts
@@ -40,6 +38,7 @@ router.post('/', checkLogin, function(req, res, next) {
 	var author = req.session.user._id;
 	var title = req.fields.title;
 	var rank = req.session.user.rank;
+	var pic = req.files.pic.path.split(path.sep).pop();
 	var content = req.fields.content;
 
 	// 校验参数
@@ -59,6 +58,7 @@ router.post('/', checkLogin, function(req, res, next) {
 		author: author,
 		title: title,
 		content: content,
+		pic: pic,
 		rank: rank,
 		pv: 0
 	};

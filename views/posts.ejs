@@ -36,6 +36,7 @@
 		<% posts.forEach(function (post) { %>
 		  <%- include('components/post-content', { post: post }) %>
 		<% }) %>
+  <div class="loadMore">加载更多食谱</div>
 	</div>
   </div>
 
@@ -46,8 +47,47 @@
   if (searchStr.length > 4) {
     $('.p_all').show();
     $('.p_short').hide();
+    $('.pin').css('padding','0 70px');
   } else {
     $('.p_all').hide();
     $('.p_short').show();
   }
+  var i=0;　
+
+  $(window).bind('scroll', function() {　
+    var scrollTop = $(this).scrollTop();　　
+    var scrollHeight = $(document).height();　　
+    var windowHeight = $(this).height();
+    console.log(scrollTop + windowHeight+"----"+scrollHeight)
+    if (scrollTop + windowHeight == scrollHeight) {
+      i++;
+      $.ajax({
+        url:'/posts?page='+i,
+        type:'POST',
+        async: false,
+        success:function(msg){
+          console.log(msg)
+        },
+        error:function(){}
+      })
+      // function getCurrPage(arr) {
+      //   $.each(arr, function(i, e) {
+      //     if (e.indexOf('currentPage') > -1) {
+      //       toCurrt = arr[i];
+      //     }
+      //   })
+      // }
+      // var urlData = $('.loadMore').attr("data-url");
+      // var moreData = urlData.split("?");
+      // var currData = moreData[1].split("&");
+
+      // getCurrPage(currData);
+      // var thisCurrt = toCurrt.split("=")[1];
+      // thisCurrt++;
+
+      // var replaceStr = "currentPage=" + thisCurrt;
+      // var postUrl = urlData.replace(toCurrt, replaceStr);
+      // searchList(postUrl, 0);　　
+    }
+  });
 </script>

@@ -1,26 +1,36 @@
 <%- include('header') %>
- <div class="nav">
-  <div class="ui grid">
-    <div class="four wide column"></div>
-
-    <div class="eight wide column">
-      <a><h1>修改密码</h1></a>
-    </div>
-  </div>
-</div>
+  <%- include('components/nav') %>
   <%- include('components/nav-setting') %>
-  <%- include('components/notification') %>
-
-<div class="ui grid">
+<div class="ui grid" style="padding-top:72px;">
   <div class="four wide column"></div>
   <div class="eight wide column">
-    <form class="ui form segment" method="post">
+
+  <% if (success) { %>
+    <div class="ui success message">
+      <p><%= success %></p>
+    </div>
+  <% } %>
+
+  <% if (error) { %>
+    <div class="ui error message">
+      <p><%= error %></p>
+    </div>
+  <% } %>
+
+  </div>
+</div>
+<% if(user){%>
+<div class="ui grid">
+  <div class="eight wide column" style="margin: 0 auto; ">
+    <h3 style="text-align:center;">修改密码</h3>
+    <form class="ui form segment" method="post" enctype="multipart/form-data">
       <div class="field required">
         <label>帐号</label>
-        <% if(user.name=="admin"){%>
+        <% if(user.permission=='3'){%>
           <input placeholder="帐号" type="text" name="name">
         <% } else { %>
-          <input placeholder="帐号" type="text" value="<%= user.name %>" name="name">
+          <span><%= user.name %></span>
+          <input type="hidden" value="<%= user.name %>" name="name">
         <% }%>
       </div>
       <div class="field required">
@@ -35,5 +45,11 @@
     </div>
   </form>
 </div>
-
-<%- include('footer') %>
+<%}else{%>
+<div class="ui grid">
+  <div class="four wide column"></div>
+  <div class="eight wide column">
+    <h3 style="text-align:center;"><a href="/signin"> 请先登录</a></h3>
+  </div>
+</div>
+<%}%><%- include('footer') %>

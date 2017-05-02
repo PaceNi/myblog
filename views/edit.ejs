@@ -1,15 +1,21 @@
 <%- include('header') %>
- <div class="nav">
-  <div class="ui grid">
-    <div class="four wide column"></div>
-
-    <div class="eight wide column">
-      <a><h1>编辑信息</h1></a>
+  <%- include('components/nav') %>
+  <%- include('components/nav-setting') %>
+<div class="ui grid" style="padding-top:72px;">
+  <div class="four wide column"></div>
+  <div class="eight wide column">
+  <% if (success) { %>
+    <div class="ui success message">
+      <p><%= success %></p>
     </div>
+  <% } %>
+  <% if (error) { %>
+    <div class="ui error message">
+      <p><%= error %></p>
+    </div>
+  <% } %>
   </div>
 </div>
-  <%- include('components/nav-setting') %>
-  <%- include('components/notification') %>
 <div class="ui grid">
   <div class="four wide column">
     <a class="avatar"
@@ -19,9 +25,9 @@
       <img class="avatar" src="/img/<%= user.avatar %>">
     </a>
   </div>
-
   <div class="eight wide column">
-    <form class="ui form segment" method="post" action="/posts/<%= post._id %>/edit">
+    <h3 style="text-align:center;">发布文章</h3>
+    <form class="ui form segment" method="post" action="/posts/<%= post._id %>/edit" enctype="multipart/form-data">
       <div class="field required">
         <label>标题</label>
         <input type="text" name="title" value="<%= post.title %>">
@@ -30,9 +36,27 @@
         <label>内容</label>
         <textarea name="content" rows="15"><%= post.content %></textarea>
       </div>
+      <div class="field">
+        <label>图片</label>
+        <input type="file" name="pic" accept="image/jpeg,image/jpg,image/png">
+        <%if(post.pic){%>
+          <a style="cursor: pointer; " onclick="through()"> 查看图片</a>
+        <%}%>
+      </div>
       <input type="submit" class="ui button" value="发布">
     </div>
   </form>
+  <div class="picBg">
+    <img src="/img/<%= post.pic %>">
+  </div>
 </div>
 
 <%- include('footer') %>
+<script type="text/javascript">
+function through(){
+  $('.picBg').show();
+}
+$('.picBg').click(function(){
+  $('.picBg').hide();
+});
+</script>
