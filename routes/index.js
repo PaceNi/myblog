@@ -24,14 +24,6 @@ module.exports = function(app) {
 				res.json(posts);
 			})
 	});
-	// app.get('/delete', function(req, res) {
-	// 	var commentId = req.query.commentId;
-	// 	var author = req.query.author;
-	// 	CommentModel.delCommentById(commentId, author)
-	// 		.then(function(posts) {
-	// 			res.json(posts);
-	// 		})
-	// });
 	app.use('/signup', require('./signup'));
 	app.use('/signin', require('./signin'));
 	app.use('/signout', require('./signout'));

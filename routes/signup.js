@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
 	// 校验参数
 	try {
 		if (!(name.length >= 1 && name.length <= 10)) {
-			throw new Error('名字请限制在 1-10 个字符');
+			throw new Error('登录名请限制在 1-10 个字符');
 		}
 		if (!(nick.length >= 1 && nick.length <= 20)) {
 			throw new Error('名字请限制在 1-20 个字符');
@@ -36,9 +36,6 @@ router.post('/', function(req, res, next) {
 		}
 		if (['0'].indexOf(permission) != -1) {
 			throw new Error('请选择角色');
-		}
-		if (!(bio.length >= 1 && bio.length <= 30)) {
-			throw new Error('个人简介请限制在 1-30 个字符');
 		}
 		if (!req.files.avatar.name) {
 			throw new Error('缺少头像');

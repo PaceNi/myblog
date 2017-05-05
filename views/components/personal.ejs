@@ -59,11 +59,11 @@
  			success:function(msg){
 				$('.waterfall').find('.pin').remove();
 				$('.waterfall').find('.nomore').remove();
- 				console.log(msg)
  				if(msg!=''){
 		            $.each(msg,function(i,e){
+ 						console.log("11111"+msg[i].pic)
 						var str = '<div class="pin ui grid post" > <div class="one column wide"> <div class="ui segment"> <a class="item" href="/posts?author='+msg[i].author._id+'"><img class="personal_img" src="/img/'+msg[i].author.avatar+'"> <p style="text-align:right;">'+msg[i].author.nick+'</p></a> <p style="display: block;font-weight: bolder;padding-top: 10px; ">'+msg[i].title+'</p> <div class="summary p_short"><a href="/posts/'+msg[i]._id+'">'+msg[i].content+'</a></div>';
-						if (msg[i].pic!=undefined) {
+						if (msg[i].pic!=undefined&&msg[i].pic) {
 						str += '<div > <a href="/posts/'+msg[i].author._id+'"><img style="width:100%;" src="/img/'+msg[i].pic+'" /></a> </div>';
 						}
 						str +='<div> <span class="tag">'+msg[i].created_at+'</span> <span class="tag right"> <span>浏览('+msg[i].pv+')</span> <span>留言('+msg[i].commentsCount+')</span> ';

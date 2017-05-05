@@ -30,6 +30,9 @@ router.post('/', checkLogin, function(req, res, next) {
 	var title = req.fields.title;
 	var rank = req.session.user.rank;
 	var pic = req.files.pic.path.split(path.sep).pop();
+	if (!req.files.pic.name) {
+		pic = '';
+	}
 	var content = req.fields.content;
 
 	// 校验参数
