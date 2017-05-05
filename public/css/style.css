@@ -8,19 +8,13 @@ body {
 
 a:hover {
   border-bottom:0px;
+  color: #db4437!important;
   /*border-bottom: 3px solid #4fc08d;*/
 }
 
 .button {
   background-color: #4fc08d !important;
   color: #fff !important;
-}
-
-.avatar {
-  border-radius: 3px;
-  width: 48px;
-  height: 48px;
-  /*float: right;*/
 }
 
 /* ---------- nav ---------- */
@@ -46,8 +40,33 @@ a:hover {
   -webkit-box-align:center;
   position: relative;
 }
-.nav1 p {
+.nav1 .logo{
+  display: inline-block;width: 60px;vertical-align: middle;margin-left: 15px;
+}
+.nav1 .avatar {
+  border-radius: 18px;
+  width: 36px;
+  height: 36px;
+  display: inline-block;
+  vertical-align: top;
+}
+.nav1 .user{
+  position: absolute;
+  right: 80px;
+  top: 16px;
+}
+.nav1 p{
+  font-size: 13px;
+  color: #fff;
+  display: inline-block;
+  padding-top: 17px;
+  padding-left: 5px;
+  font-weight: normal;
+}
+.nav1 a{display: inline-block;}
+.nav1 a p {
   padding: 16px;
+  font-size: 21px;
   color: #fff;
 }
 
@@ -62,7 +81,7 @@ a:hover {
 .nav-setting {
   position: fixed;
   right: 30px;
-  top: 18px;
+  top: 6px;
   z-index: 999;
 }
 
@@ -128,12 +147,21 @@ a {
   height: 119.16px;
 }
 .personal_left .ground{
-  background-color: #C6E2FF;
-  position: relative;
-  padding-left: 11px;
+  background-color: #f1f1f1;
   height: 100%;
+  overflow-y: scroll;
+  border-right: 6px solid #dbdbdb;
+  padding: 15px 0 90px 11px;
 }
-.personal_left .ground .personal_img{
+.personal_left a{
+  padding: 13px;
+  display: block;
+}
+.personal_left a:hover{
+  color: #db4437;
+  cursor: pointer;
+}
+/*.personal_left .ground .personal_img{
   position: absolute;
   top: -25px;
   border-radius: 40px;
@@ -147,6 +175,7 @@ a {
 .personal_left .ground .name a{
   color: #000;
 }
+*/
 .post .personal_img{
   border-radius: 40px;
   width: 40px;
@@ -176,7 +205,7 @@ a {
 .summary{margin-bottom: 10px; text-align: left; }
 .summary.selector{height: auto; } 
 .p_short{overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;font-size:14px;text-overflow:ellipsis}
-
+.p_all p{display: block;  }
 
 .waterfall {
   padding-top: 72px;

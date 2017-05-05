@@ -9,17 +9,8 @@ var checkLogin = require('../middlewares/check').checkLogin;
 //   eg: GET /posts?author=xxx
 router.get('/', function(req, res, next) {
 	var author = req.query.author;
-	PostModel.getPosts(author)
-		.then(function(posts) {
-			res.render('posts', {
-				posts: posts
-			});
-		})
-		.catch(next);
-});
-router.get('/', function(req, res, next) {
 	var page = req.query.page;
-	PostModel.getPostSkip(page)
+	PostModel.getPosts(author, page)
 		.then(function(posts) {
 			res.render('posts', {
 				posts: posts
@@ -137,10 +128,10 @@ router.post('/:postId/edit', checkLogin, function(req, res, next) {
 		.catch(next);
 });
 
-// GET /posts/:postId/remove 删除一篇文章
-router.get('/:postId/remove', checkLogin, function(req, res, next) {
+// GET /posts/:userId/:postId/remove 删除一篇文章
+router.get('/:userId/:postId/remove', checkLogin, function(req, res, next) {
 	var postId = req.params.postId;
-	var author = req.session.user._id;
+	var author = req.params.userId;
 
 	PostModel.delPostById(postId, author)
 		.then(function() {
@@ -171,11 +162,10 @@ router.post('/:postId/comment', checkLogin, function(req, res, next) {
 		.catch(next);
 });
 
-// GET /posts/:postId/comment/:commentId/remove 删除一条留言
-router.get('/:postId/comment/:commentId/remove', checkLogin, function(req, res, next) {
+// GET /posts/:userId/comment/:commentId/remove 删除一条留言
+router.get('/:userId/comment/:commentId/remove', checkLogin, function(req, res, next) {
 	var commentId = req.params.commentId;
-	var author = req.session.user._id;
-
+	var author = req.params.userId;
 	CommentModel.delCommentById(commentId, author)
 		.then(function() {
 			req.flash('success', '删除留言成功');

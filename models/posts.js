@@ -64,13 +64,16 @@ module.exports = {
 	},
 
 	// 按创建时间降序获取所有用户文章或者某个特定用户的所有文章
-	getPosts: function getPosts(author) {
+	getPosts: function getPosts(author, i) {
 		var query = {};
 		if (author) {
 			query.author = author;
 		}
+		if (!i) {
+			i = 0;
+		}
 		return Post
-			.find(query).limit(2)
+			.find(query).limit(10)
 			.populate({
 				path: 'author',
 				model: 'User'
@@ -83,12 +86,16 @@ module.exports = {
 			.contentToHtml()
 			.exec();
 	},
-	// 按创建时间降序获取所有用户文章或者某个范围的所有文章
-	getPostSkip: function getPostSkip(i) {
+	// 
+	getPostSkip: function getPostSkip(author, i) {
 		var query = {};
+		if (author) {
+			query.author = author;
+		}
 		return Post
-			.find(query).skip(i * 2).limit(2)
+			.find(query).skip(i * 10).limit(10)
 			.populate({
+				path: 'author',
 				model: 'User'
 			})
 			.sort({
@@ -96,7 +103,25 @@ module.exports = {
 			})
 			.addCreatedAt()
 			.addCommentsCount()
-			.contentToHtml()
+			.exec();
+	},
+	// 
+	getPostRank: function getPostRank(rank) {
+		var query = {};
+		if (rank) {
+			query.rank = rank;
+		}
+		return Post
+			.find(query).limit(10)
+			.populate({
+				path: 'author',
+				model: 'User'
+			})
+			.sort({
+				_id: -1
+			})
+			.addCreatedAt()
+			.addCommentsCount()
 			.exec();
 	},
 

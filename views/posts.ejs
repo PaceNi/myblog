@@ -33,61 +33,72 @@
   	<%- include('components/personal') %>
 	<div class="post-content waterfall">
   <%- include('components/notification') %>
-		<% posts.forEach(function (post) { %>
-		  <%- include('components/post-content', { post: post }) %>
-		<% }) %>
-  <div class="loadMore">加载更多食谱</div>
+  <% posts.forEach(function (post) { %>
+    <%- include('components/post-content', { post: post }) %>
+  <% }) %>
 	</div>
   </div>
 
 <%- include('footer') %>
 <script type="text/javascript">
-  var searchStr = window.location.href.split("/");
-  console.log(searchStr.length)
-  if (searchStr.length > 4) {
-    $('.p_all').show();
-    $('.p_short').hide();
-    $('.pin').css('padding','0 70px');
-  } else {
-    $('.p_all').hide();
-    $('.p_short').show();
-  }
-  var i=0;　
+var user = JSON.parse('<%- JSON.stringify(user) %>');
+var page=0;
+function dropdown(obj){
+  var strObj = $(obj).find('.menu');
+  strObj.slideToggle(300);
+}
+function getPostUrl(arr){
+    $.each(arr,function(i,e){
+        if(e.indexOf('author')>-1){
+            author = arr[i];
+        }
+    })
+}
+var searchStr = window.location.search.split("?");
+var author;
+getPostUrl(searchStr);
 
-  $(window).bind('scroll', function() {　
+$(window).bind('scroll', function() {　
     var scrollTop = $(this).scrollTop();　　
     var scrollHeight = $(document).height();　　
     var windowHeight = $(this).height();
-    console.log(scrollTop + windowHeight+"----"+scrollHeight)
     if (scrollTop + windowHeight == scrollHeight) {
-      i++;
+      page++;
       $.ajax({
-        url:'/posts?page='+i,
-        type:'POST',
+        url:'/skip?page='+page+'&'+author,
+        type:'GET',
         async: false,
         success:function(msg){
-          console.log(msg)
+          if(msg!=''){
+            $.each(msg,function(i,e){
+              var str = '<div class="pin ui grid post" > <div class="one column wide"> <div class="ui segment"> <a class="item" href="/posts?author='+msg[i].author._id+'"><img class="personal_img" src="/img/'+msg[i].author.avatar+'"> <p style="text-align:right;">'+msg[i].author.nick+'</p></a> <p style="display: block;font-weight: bolder;padding-top: 10px; ">'+msg[i].title+'</p> <div class="summary p_short"><a href="/posts/'+msg[i]._id+'">'+msg[i].content+'</a></div>';
+              if (msg[i].pic!=undefined) {
+                str += '<div > <a href="/posts/'+msg[i].author._id+'"><img style="width:100%;" src="/img/'+msg[i].pic+'" /></a> </div>';
+              }
+              str +='<div> <span class="tag">'+msg[i].created_at+'</span> <span class="tag right"> <span>浏览('+msg[i].pv+')</span> <span>留言('+msg[i].commentsCount+')</span> ';
+              if(user!=null&&user._id==msg[i].author._id){
+                str +='<div class = "ui inline dropdown" onclick="dropdown(this)"> <div class="text"></div> <i class = "dropdown icon" > </i> <div class = "menu" > <div class = "item" > <a href="/posts/'+msg[i]._id+'/edit">编辑</a> </div> <div class = "item" > <a href="/posts/'+msg[i]._id+'/remove">删除</a> </div> </div > </div>';
+              }
+              if(user!=null&&user.permission=='3'){
+                str +='<div class="ui inline dropdown" onclick="dropdown(this)"> <div class="text"></div> <i class="dropdown icon"> </i> <div class="menu"> <div class="item"><a href="/posts/'+msg[i]._id+'/remove">删除</a></div> </div> </div>';
+              }
+              str += '</span> </div> </div> </div> </div>';
+              $('.waterfall').append(str);
+            })
+          }
         },
         error:function(){}
       })
-      // function getCurrPage(arr) {
-      //   $.each(arr, function(i, e) {
-      //     if (e.indexOf('currentPage') > -1) {
-      //       toCurrt = arr[i];
-      //     }
-      //   })
-      // }
-      // var urlData = $('.loadMore').attr("data-url");
-      // var moreData = urlData.split("?");
-      // var currData = moreData[1].split("&");
-
-      // getCurrPage(currData);
-      // var thisCurrt = toCurrt.split("=")[1];
-      // thisCurrt++;
-
-      // var replaceStr = "currentPage=" + thisCurrt;
-      // var postUrl = urlData.replace(toCurrt, replaceStr);
-      // searchList(postUrl, 0);　　
-    }
-  });
+  }
+})
+var searchStr = window.location.href.split("/");
+if (searchStr.length > 4) {
+  $('.p_all').show();
+  $('.p_short').hide();
+  $('.pin').css('padding','0 70px');
+} else {
+  $('.p_all').hide();
+  $('.p_short').show();
+}
 </script>
+
