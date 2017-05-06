@@ -12,16 +12,12 @@
 
 <%- include('footer') %>
 <script type="text/javascript">
-var user;
-if(user){
-  user= JSON.parse('<%- JSON.stringify(user) %>');
-}
 
-var page=0;
 function dropdown(obj){
   var strObj = $(obj).find('.menu');
   strObj.slideToggle(300);
 }
+//获取url中author的值
 function getPostUrl(arr){
     $.each(arr,function(i,e){
         if(e.indexOf('author')>-1){

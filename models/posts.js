@@ -64,13 +64,10 @@ module.exports = {
 	},
 
 	// 按创建时间降序获取所有用户文章或者某个特定用户的所有文章
-	getPosts: function getPosts(author, i) {
+	getPosts: function getPosts(author) {
 		var query = {};
 		if (author) {
 			query.author = author;
-		}
-		if (!i) {
-			i = 0;
 		}
 		return Post
 			.find(query).limit(10)
@@ -105,7 +102,7 @@ module.exports = {
 			.addCommentsCount()
 			.exec();
 	},
-	// 
+	// 按创建时间降序获取某个范围的所有文章
 	getPostRank: function getPostRank(rank) {
 		var query = {};
 		if (rank) {

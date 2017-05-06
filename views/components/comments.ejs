@@ -24,7 +24,6 @@
               <% if (user && user.permission==='3') { %>
                 <div class="actions">
                   <a class="reply" href="/posts/<%= comment.author._id %>/comment/<%= comment._id %>/remove">删除</a>
-                  <!-- <a onclick="deleteComment('<%= comment.author._id %>','<%= comment._id %>')">删除</a> -->
                 </div>
               <% } %>
             </div>
@@ -44,14 +43,3 @@
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  function deleteComment(author,commentId){
-    $.ajax({
-      url:'/delete?author='+author+'&commentId='+commentId,
-      type:'GET',
-      success:function(msg){
-        console.log(msg)
-      }
-    })
-  }
-</script>
